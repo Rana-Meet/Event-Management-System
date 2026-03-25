@@ -71,3 +71,4 @@ class BookingController extends Controller
         return $pdf->download('Ticket-'.$booking->ticket_code.'.pdf');
     }
 }
+    

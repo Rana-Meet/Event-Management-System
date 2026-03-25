@@ -2,19 +2,14 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Hash; // Added
+use Illuminate\Support\Facades\Hash; 
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AdminController;
-use App\Models\User;    // Added
-use App\Models\Booking; // Added
+use App\Models\User;    
+use App\Models\Booking; 
 
-/*
 
-|--------------------------------------------------------------------------
-| FRONTEND
-|--------------------------------------------------------------------------
-*/
 
 Route::get('/', [EventController::class, 'index']);
 
@@ -27,14 +22,7 @@ Route::post('/book/{id}', [BookingController::class, 'store']);
 Route::get('/ticket/{id}', [BookingController::class, 'ticket']);
 Route::get('/download/{id}', [BookingController::class, 'download']);
 
-/*
 
-|--------------------------------------------------------------------------
-| ADMIN
-|--------------------------------------------------------------------------
-*/
-
-// Admin Login Page
 Route::get('/admin/login', function () {
     return view('admin.login');
 });
@@ -50,21 +38,16 @@ Route::post('/admin/login', function (Request $request) {
 
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
 
-// Create Event Page
+
 Route::get('/admin/create', function () {
     if(!session('admin')) return redirect('/admin/login');
     return view('events.create');
 });
 
-// Store Event
+
 Route::post('/admin/store', [EventController::class, 'store']);
 
-/*
 
-|--------------------------------------------------------------------------
-| USER DASHBOARD / AUTH
-|--------------------------------------------------------------------------
-*/
 Route::get('/dashboard', function () {
     return redirect('/admin/dashboard');
 })->name('dashboard');
