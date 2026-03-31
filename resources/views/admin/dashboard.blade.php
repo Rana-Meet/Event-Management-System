@@ -1,99 +1,154 @@
 @extends('layouts.app')
 
 @section('content')
+
 <style>
-    .dashboard-header { 
-        display: flex; 
-        justify-content: space-between; 
-        align-items: center; 
-        margin: 25px 0; 
+body {
+    background: radial-gradient(circle at top, #0f0f1a, #000);
+    color: white;
+}
+
+/* 🔥 IMPORTANT WRAPPER */
+.dashboard-wrapper {
+    width: 100%;
+    padding: 20px 40px;
+}
+
+/* Header */
+.dashboard-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin: 25px 0; 
+}
+
+/* Button */
+.btn-add {
+    background: linear-gradient(45deg,#4f46e5,#00f0ff);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.btn-add:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #00f0ff;
+}
+
+/* 🔥 FORCE GRID (IMPORTANT FIX) */
+.stats-container {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 25px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .stats-container {
+        grid-template-columns: 1fr !important;
     }
-    .btn-add {
-        background: #2563eb;
-        color: white;
-        padding: 12px 20px;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: 600;
-        transition: 0.2s;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-    .btn-add:hover { background: #1e40af; color: white; transform: translateY(-2px); }
-    
-    .stats-container { display: flex; gap: 20px; margin-bottom: 30px; }
-    .stat-card {
-        flex: 1;
-        background: white;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        border-left: 5px solid #2563eb;
-    }
-    .stat-card h3 { color: #64748b; font-size: 14px; text-transform: uppercase; margin-bottom: 5px; }
-    .stat-card p { font-size: 28px; font-weight: bold; color: #1e293b; }
-    
-    .chart-box { 
-        background: white; 
-        padding: 20px; 
-        border-radius: 12px; 
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
-        max-width: 600px; 
-        margin: 0 auto; 
-    }
+}
+
+/* 🔥 FIX CARD SIZE */
+.stat-card {
+    min-width: 0; /* prevents overflow */
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(12px);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 25px rgba(0,255,255,0.3);
+}
+
+.stat-card h3 { 
+    color: #94a3b8; 
+    font-size: 13px; 
+    margin-bottom: 8px; 
+}
+.stat-card p { 
+    font-size: 32px; 
+    font-weight: bold; 
+    color: #00f0ff; 
+}
+
+/* Chart */
+.chart-box { 
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(12px);
+    padding: 25px; 
+    border-radius: 15px; 
+    max-width: 700px; 
+    margin: 50px auto; 
+}
+
+/* Animation */
+.dashboard-wrapper {
+    animation: fadeIn 0.8s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity:0; transform: translateY(20px); }
+    to { opacity:1; transform: translateY(0); }
+}
 </style>
 
-<div class="container">
-    <!-- Updated Header with Button -->
+<div class="dashboard-wrapper">
+
+    <!-- Header -->
     <div class="dashboard-header">
-        <h2 style="margin: 0;">📊 Admin Dashboard</h2>
-        <a href="/admin/create" class="btn-add">
-            <span>+</span> Add New Event
-        </a>
+        <h2>📊 Admin Dashboard</h2>
+        <a href="/admin/create" class="btn-add">+ Add New Event</a>
     </div>
 
+    <!-- 🔥 FIXED CARDS -->
     <div class="stats-container">
         <div class="stat-card">
             <h3>Total Events</h3>
             <p>{{ $events }}</p>
         </div>
-        <div class="stat-card" style="border-left-color: #10b981;">
+
+        <div class="stat-card">
             <h3>Total Bookings</h3>
             <p>{{ $bookings }}</p>
         </div>
     </div>
 
+    <!-- Chart -->
     <div class="chart-box">
         <canvas id="chart"></canvas>
     </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const ctx = document.getElementById('chart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Events', 'Bookings'],
-                datasets: [{
-                    label: 'Platform Statistics',
-                    data: [{{ $events }}, {{ $bookings }}],
-                    backgroundColor: ['#2563eb', '#10b981'],
-                    borderRadius: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: { 
-                        beginAtZero: true, 
-                        ticks: { stepSize: 1, precision: 0 } 
-                    }       
-                }
-            }
-        });
-    });
+new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    data: {
+        labels: ['Events', 'Bookings'],
+        datasets: [{
+            label: 'Stats',
+            data: [{{ $events }}, {{ $bookings }}],
+            backgroundColor: ['#4f46e5', '#00f0ff']
+        }]
+    },
+    options: {
+        plugins: {
+            legend: { labels: { color: "white" } }
+        },
+        scales: {
+            x: { ticks: { color: "white" } },
+            y: { ticks: { color: "white" } }
+        }
+    }
+});
 </script>
-@endsection
+
+@endsection 

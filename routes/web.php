@@ -86,3 +86,6 @@ Route::get('/mybookings', function () {
     // If your file is named mybook.blade.php, use 'events.mybook'
     return view('events.mybook', compact('bookings'));
 });
+Route::get('/payment', [BookingController::class, 'payment']);
+Route::post('/payment-success', [BookingController::class, 'paymentScreen']);
+Route::post('/send-ticket/{id}', [BookingController::class, 'sendTicket']);

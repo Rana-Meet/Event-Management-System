@@ -150,7 +150,7 @@
             </div>
         </div>
 
-        <!-- Stub Section -->
+    
         <div class="ticket-stub">
             <div class="qr-wrapper">
                 @if(!empty($booking->ticket_code))
@@ -165,9 +165,18 @@
         </div>
     </div>
 
-    <!-- Download Link -->
+    
     <a href="/download/{{ $booking->id }}" class="btn-download">
         Download PDF Ticket
     </a>
 </div>
+
+
+ <form action="/send-ticket/{{ $booking->id }}" method="POST">
+    @csrf
+    <button class="btn-download" style="background:#16a34a;">
+        Send to Email 📧
+    </button>
+</form>
 @endsection
+

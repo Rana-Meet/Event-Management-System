@@ -28,9 +28,7 @@ body {
     opacity:0;
     transition: opacity 0.6s ease;
 }
-body.loaded {
-    opacity:1;
-}
+body.loaded { opacity:1; }
 
 /* Sidebar */
 .sidebar {
@@ -99,8 +97,8 @@ body.loaded {
     <a href="/" class="block mb-4 hover:text-cyan-400">Home</a>
     <a href="/mybookings" class="block mb-4 hover:text-cyan-400">My Events</a>
     <a href="/profile" class="block mb-4 hover:text-cyan-400">Profile</a>
-    <a href="/admin/login" class="block hover:text-cyan-400">Admin</a>
-    <a href="/login" class="block mb-4 hover:text-cyan-400">Login</a>
+    <a href="/admin/login" class="block mb-4 hover:text-cyan-400">Admin</a>
+    <a href="/login" class="block hover:text-cyan-400">Login</a>
 </div>
 
 <!-- MAIN -->
@@ -117,13 +115,15 @@ Manage Your Events Like a Pro
 Premium event management platform with powerful tools
 </p>
 
-<div class="space-x- 4">
+<div class="space-x-4">
+
 <button onclick="scrollToEvents()" 
 class="btn-glow px-6 py-3 rounded-full">
 Get Started
 </button>
 
-<button  class="border border-cyan-400 px-6 py-3 rounded-full hover:bg-cyan-400 hover:text-black">
+<button onclick="window.location.href='/login'" 
+class="border border-cyan-400 px-6 py-3 rounded-full hover:bg-cyan-400 hover:text-black">
 Book Demo
 </button>
 
@@ -173,21 +173,65 @@ Book Demo
 </div>
 
 <!-- FOOTER -->
-<div class="text-center py-10 text-gray-400 border-t border-gray-800">
-    © 2026 EventPro
+<footer class="bg-black border-t border-gray-800 px-10 py-16">
+
+<div class="grid md:grid-cols-4 gap-10 text-gray-400">
+
+<!-- Brand -->
+<div>
+<h2 class="text-2xl text-cyan-400 font-bold mb-4">EventPro</h2>
+<p class="text-sm">Premium event management platform for modern businesses.</p>
 </div>
+
+<!-- Links -->
+<div>
+<h4 class="text-white mb-4">Company</h4>
+<ul class="space-y-2">
+<li><a href="#" class="hover:text-cyan-400">About</a></li>
+<li><a href="#" class="hover:text-cyan-400">Careers</a></li>
+<li><a href="#" class="hover:text-cyan-400">Blog</a></li>
+</ul>
+</div>
+
+<div>
+<h4 class="text-white mb-4">Product</h4>
+<ul class="space-y-2">
+<li><a href="#" class="hover:text-cyan-400">Features</a></li>
+<li><a href="#" class="hover:text-cyan-400">Pricing</a></li>
+<li><a href="#" class="hover:text-cyan-400">Demo</a></li>
+</ul>
+</div>
+
+<!-- Contact -->
+<div>
+<h4 class="text-white mb-4">Contact</h4>
+<p>Email: support@eventpro.com</p>
+<p>Ahmedabad, India</p>
+
+<div class="mt-4 space-x-4 text-xl">
+<i class="fab fa-facebook hover:text-cyan-400"></i>
+<i class="fab fa-instagram hover:text-cyan-400"></i>
+<i class="fab fa-linkedin hover:text-cyan-400"></i>
+</div>
+</div>
+
+</div>
+
+<div class="text-center mt-10 text-gray-600 text-sm">
+© 2026 EventPro. All rights reserved.
+</div>
+
+</footer>
 
 </div>
 
 <!-- SCRIPTS -->
 
-<!-- AOS -->
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
 AOS.init({duration:1000});
 </script>
 
-<!-- GSAP -->
 <script>
 gsap.from("#heroTitle", {
     y:50,
@@ -196,7 +240,6 @@ gsap.from("#heroTitle", {
 });
 </script>
 
-<!-- PARTICLES -->
 <script>
 particlesJS("particles-js", {
   particles: {
@@ -208,14 +251,12 @@ particlesJS("particles-js", {
 });
 </script>
 
-<!-- SIDEBAR -->
 <script>
 function toggleSidebar(){
     document.getElementById("sidebar").classList.toggle("active");
 }
 </script>
 
-<!-- SCROLL TO EVENTS -->
 <script>
 function scrollToEvents() {
     const section = document.getElementById("events");
@@ -228,7 +269,6 @@ function scrollToEvents() {
 }
 </script>
 
-<!-- PAGE LOAD -->
 <script>
 window.onload = () => {
     document.body.classList.add("loaded");
