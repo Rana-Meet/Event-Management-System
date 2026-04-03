@@ -83,6 +83,13 @@ input:focus {
     50%{transform: translateY(-30px);}
     100%{transform: translateY(0);}
 }
+
+
+
+
+/* For Logos */
+
+
 </style>
 
 </head>
@@ -128,3 +135,5 @@ gsap.from("#loginBox", {
 
 </body>
 </html>
+
+

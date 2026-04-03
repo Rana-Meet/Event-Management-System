@@ -8,16 +8,9 @@
 
 <script src="https://cdn.tailwindcss.com"></script>
 
-<!-- AOS -->
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
-
-<!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<!-- GSAP -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
-<!-- PARTICLES -->
 <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
 
 <style>
@@ -30,7 +23,6 @@ body {
 }
 body.loaded { opacity:1; }
 
-/* Sidebar */
 .sidebar {
     width: 260px;
     background: rgba(0,0,0,0.85);
@@ -39,7 +31,6 @@ body.loaded { opacity:1; }
     left: -260px;
     top: 0;
     height: 100%;
-    z-index: 1000;
     transition: 0.3s;
 }
 .sidebar.active { left: 0; }
@@ -48,20 +39,17 @@ body.loaded { opacity:1; }
     .sidebar { left:0; }
 }
 
-/* Glass */
 .glass {
     background: rgba(255,255,255,0.05);
     backdrop-filter: blur(12px);
     border: 1px solid rgba(255,255,255,0.1);
 }
 
-/* Card hover */
 .card-hover:hover {
     transform: translateY(-10px) scale(1.03);
     box-shadow: 0 0 30px rgba(0,255,255,0.3);
 }
 
-/* Button */
 .btn-glow {
     background: linear-gradient(45deg,#4f46e5,#00f0ff);
 }
@@ -70,25 +58,33 @@ body.loaded { opacity:1; }
     transform: scale(1.05);
 }
 
-/* Particle */
 #particles-js {
     position:absolute;
     width:100%;
     height:100%;
     z-index:-1;
 }
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+    display: flex;
+    width: max-content;
+    animation: scroll 30s linear infinite;
+}
+
+.marquee-container:hover .animate-marquee {
+    animation-play-state: paused; /* Optional: stops the train when you hover */
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- PARTICLES -->
 <div id="particles-js"></div>
-
-<!-- MOBILE MENU -->
-<button onclick="toggleSidebar()" class="fixed top-4 left-4 z-50 md:hidden text-white text-2xl">
-☰
-</button>
 
 <!-- SIDEBAR -->
 <div id="sidebar" class="sidebar text-white p-6">
@@ -101,24 +97,21 @@ body.loaded { opacity:1; }
     <a href="/login" class="block hover:text-cyan-400">Login</a>
 </div>
 
-<!-- MAIN -->
 <div class="md:ml-[260px]">
 
 <!-- HERO -->
-<section class="h-screen flex flex-col justify-center items-center text-center relative">
+<section class="h-screen flex flex-col justify-center items-center text-center">
 
 <h1 id="heroTitle" class="text-5xl md:text-6xl font-bold mb-6">
 Manage Your Events Like a Pro
 </h1>
 
 <p class="text-gray-400 mb-8">
-Premium event management platform with powerful tools
+Premium event management platform
 </p>
 
 <div class="space-x-4">
-
-<button onclick="scrollToEvents()" 
-class="btn-glow px-6 py-3 rounded-full">
+<button onclick="scrollToEvents()" class="btn-glow px-6 py-3 rounded-full">
 Get Started
 </button>
 
@@ -126,99 +119,154 @@ Get Started
 class="border border-cyan-400 px-6 py-3 rounded-full hover:bg-cyan-400 hover:text-black">
 Book Demo
 </button>
-
 </div>
 
 </section>
-
-<!-- HEADER -->
-<div class="flex justify-between items-center p-6 bg-black/40 backdrop-blur-md sticky top-0">
-    <h2 class="text-2xl text-cyan-400">Upcoming Events</h2>
-</div>
 
 <!-- EVENTS -->
 <div id="events" class="p-10 grid md:grid-cols-3 gap-8">
 
 @foreach($events as $event)
+<div class="glass rounded-xl overflow-hidden card-hover" data-aos="fade-up">
 
-<div class="glass rounded-xl overflow-hidden card-hover transition duration-300" data-aos="fade-up">
+<img src="{{ asset('images/'.$event->image) }}" class="w-full h-52 object-cover">
 
-    <img src="{{ asset('images/'.$event->image) }}" class="w-full h-52 object-cover">
+<div class="p-5">
+<h3 class="text-lg font-bold mb-2">{{ $event->title }}</h3>
 
-    <div class="p-5">
-        <h3 class="text-lg font-bold mb-2">{{ $event->title }}</h3>
+<p class="text-sm text-gray-300">
+<i class="fa fa-location-dot text-cyan-400"></i> {{ $event->location }}
+</p>
 
-        <p class="text-sm text-gray-300">
-            <i class="fa fa-location-dot text-cyan-400"></i> {{ $event->location }}
-        </p>
+<p class="text-sm text-gray-300 mb-3">
+<i class="fa fa-calendar text-cyan-400"></i> {{ $event->date }}
+</p>
 
-        <p class="text-sm text-gray-300 mb-3">
-            <i class="fa fa-calendar text-cyan-400"></i> {{ $event->date }}
-        </p>
+<div class="flex justify-between items-center">
+<span class="text-xl text-cyan-400">₹{{ number_format($event->price) }}</span>
 
-        <div class="flex justify-between items-center">
-            <span class="text-xl text-cyan-400">₹{{ number_format($event->price) }}</span>
-
-            <a href="/book/{{ $event->id }}" 
-               class="btn-glow px-4 py-2 rounded-full text-sm">
-               Register
-            </a>
-        </div>
-    </div>
-
+<a href="/book/{{ $event->id }}" class="btn-glow px-4 py-2 rounded-full text-sm">
+Register
+</a>
 </div>
-
+</div>
+</div>
 @endforeach
 
 </div>
+
+<!-- TRUSTED BY -->
+<section class="py-16 text-center">
+<div class="text-center mt-24">
+            <h2 class="text-4xl md:text-6xl font-bold tracking-tight">All the flexibility your <br>events need</h2><br><br>
+        </div> 
+<h2 class="text-gray-400 mb-10 uppercase">Trusted By</h2>
+
+<div class="marquee-container overflow-hidden bg-black py-10 relative">
+    <!-- The Moving "Train" -->
+    <div class="animate-marquee flex gap-12 items-center">
+        
+        <!-- FIRST SET OF LOGOS -->
+        <!-- Amazon -->
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" 
+         class="h-20 w-auto object-contain bg-white p-4 rounded-xl shadow-lg transition-transform hover:scale-110" alt="Amazon">
+
+    <!-- Levi's -->
+    <img src="{{ asset('images/levi.jpg') }}" 
+         class="h-20 w-auto object-contain bg-white p-4 rounded-xl shadow-lg transition-transform hover:scale-110" alt="Levi's">
+
+    <!-- Razorpay -->
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Razorpay_logo.svg" 
+         class="h-20 w-auto object-contain bg-white p-4 rounded-xl shadow-lg transition-transform hover:scale-110" alt="Razorpay">
+
+    <!-- Zoho -->
+    <img src="{{ asset('images/zoho.png') }}" 
+         class="h-20 w-auto object-contain bg-white p-4 rounded-xl shadow-lg transition-transform hover:scale-110" alt="Zoho">
+
+    <!-- Blinkit -->
+    <img src="{{ asset('images/blink.jpg') }}" 
+         class="h-20 w-auto object-contain bg-white p-4 rounded-xl shadow-lg transition-transform hover:scale-110" alt="Blinkit">
+
+    <!-- Hindustan Times -->
+    <img src="{{ asset('images/sun.png') }}" 
+         class="h-20 w-auto object-contain bg-white p-4 rounded-xl shadow-lg transition-transform hover:scale-110" alt="HT">
+
+    <!-- Startup India -->
+    {{-- <img src="https://wikimedia.org" 
+         class="h-20 w-auto object-contain bg-white p-4 rounded-xl shadow-lg transition-transform hover:scale-110" alt="Startup India"> --}}
+
+        <!-- DUPLICATE SET (To make it loop forever without a jump) -->
+        <!-- Amazon -->
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" 
+         class="h-20 w-auto object-contain bg-white p-4 rounded-xl shadow-lg transition-transform hover:scale-110" alt="Amazon">
+
+    <!-- Levi's -->
+    <img src="{{ asset('images/levi.jpg') }}" 
+         class="h-20 w-auto object-contain bg-white p-4 rounded-xl shadow-lg transition-transform hover:scale-110" alt="Levi's">
+
+    <!-- Razorpay -->
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Razorpay_logo.svg" 
+         class="h-20 w-auto object-contain bg-white p-4 rounded-xl shadow-lg transition-transform hover:scale-110" alt="Razorpay">
+
+    <!-- Zoho -->
+    <img src="{{ asset('images/zoho.png') }}" 
+         class="h-20 w-auto object-contain bg-white p-4 rounded-xl shadow-lg transition-transform hover:scale-110" alt="Zoho">
+
+    <!-- Blinkit -->
+    <img src="{{ asset('images/blink.jpg') }}" 
+         class="h-20 w-auto object-contain bg-white p-4 rounded-xl shadow-lg transition-transform hover:scale-110" alt="Blinkit">
+
+    <!-- Hindustan Times -->
+    <img src="{{ asset('images/sun.png') }}" 
+         class="h-20 w-auto object-contain bg-white p-4 rounded-xl shadow-lg transition-transform hover:scale-110" alt="HT">
+
+    <!-- Startup India -->
+    {{-- <img src="https://wikimedia.org" 
+         class="h-20 w-auto object-contain bg-white p-4 rounded-xl shadow-lg transition-transform hover:scale-110" alt="Startup India"> --}}
+        
+    </div>
+</div>
+
+
+</section>
 
 <!-- FOOTER -->
 <footer class="bg-black border-t border-gray-800 px-10 py-16">
 
 <div class="grid md:grid-cols-4 gap-10 text-gray-400">
 
-<!-- Brand -->
 <div>
 <h2 class="text-2xl text-cyan-400 font-bold mb-4">EventPro</h2>
-<p class="text-sm">Premium event management platform for modern businesses.</p>
+<p>Premium event platform.</p>
 </div>
 
-<!-- Links -->
 <div>
 <h4 class="text-white mb-4">Company</h4>
-<ul class="space-y-2">
-<li><a href="#" class="hover:text-cyan-400">About</a></li>
-<li><a href="#" class="hover:text-cyan-400">Careers</a></li>
-<li><a href="#" class="hover:text-cyan-400">Blog</a></li>
+<ul>
+<li>About</li>
+<li>Careers</li>
+<li>Blog</li>
 </ul>
 </div>
 
 <div>
 <h4 class="text-white mb-4">Product</h4>
-<ul class="space-y-2">
-<li><a href="#" class="hover:text-cyan-400">Features</a></li>
-<li><a href="#" class="hover:text-cyan-400">Pricing</a></li>
-<li><a href="#" class="hover:text-cyan-400">Demo</a></li>
+<ul>
+<li>Features</li>
+<li>Pricing</li>
 </ul>
 </div>
 
-<!-- Contact -->
 <div>
 <h4 class="text-white mb-4">Contact</h4>
-<p>Email: support@eventpro.com</p>
-<p>Ahmedabad, India</p>
-
-<div class="mt-4 space-x-4 text-xl">
-<i class="fab fa-facebook hover:text-cyan-400"></i>
-<i class="fab fa-instagram hover:text-cyan-400"></i>
-<i class="fab fa-linkedin hover:text-cyan-400"></i>
-</div>
+<p>support@eventpro.com</p>
+<p>Ahmedabad</p>
 </div>
 
 </div>
 
-<div class="text-center mt-10 text-gray-600 text-sm">
-© 2026 EventPro. All rights reserved.
+<div class="text-center mt-10 text-gray-600">
+© 2026 EventPro
 </div>
 
 </footer>
@@ -226,37 +274,20 @@ Book Demo
 </div>
 
 <!-- SCRIPTS -->
-
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script>
-AOS.init({duration:1000});
-</script>
+<script>AOS.init();</script>
 
 <script>
-gsap.from("#heroTitle", {
-    y:50,
-    opacity:0,
-    duration:1.5
-});
+gsap.from("#heroTitle", { y:50, opacity:0, duration:1.5 });
 </script>
 
 <script>
 particlesJS("particles-js", {
-  particles: {
-    number: { value: 80 },
-    size: { value: 3 },
-    move: { speed: 1 },
-    line_linked: { enable: true }
-  }
+  particles: { number:{value:80}, size:{value:3}, move:{speed:1} }
 });
 </script>
 
-<script>
-function toggleSidebar(){
-    document.getElementById("sidebar").classList.toggle("active");
-}
-</script>
-
+<!-- FIXED SCROLL FUNCTION -->
 <script>
 function scrollToEvents() {
     const section = document.getElementById("events");
@@ -270,10 +301,12 @@ function scrollToEvents() {
 </script>
 
 <script>
-window.onload = () => {
-    document.body.classList.add("loaded");
-}
+window.onload = () => document.body.classList.add("loaded");
 </script>
 
 </body>
 </html>
+
+
+
+

@@ -45,6 +45,7 @@ Route::get('/admin/create', function () {
 });
 
 
+
 Route::post('/admin/store', [EventController::class, 'store']);
 
 
@@ -59,7 +60,7 @@ Route::get('/profile', [EventController::class, 'profile']);
 Route::get('/login', function () {
     return view('events.login');
 });
-
+    
 // Login check
 Route::post('/login', function (Request $request) {
     $user = User::where('email', $request->email)->first();
@@ -88,4 +89,5 @@ Route::get('/mybookings', function () {
 });
 Route::get('/payment', [BookingController::class, 'payment']);
 Route::post('/payment-success', [BookingController::class, 'paymentScreen']);
-Route::post('/send-ticket/{id}', [BookingController::class, 'sendTicket']);
+Route::post('/send-ticket/{id}', [BookingController::class, 'sendTicket']); 
+Route::post('/just', [JustController::class, 'just']);

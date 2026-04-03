@@ -10,7 +10,7 @@
 body {
     background: linear-gradient(135deg,#0f0f1a,#000);
     color: white;
-    display:flex;
+    display:flex;   
     justify-content:center;
     align-items:center;
     height:100vh;

@@ -8,7 +8,7 @@ body {
     color: white;
 }
 
-/* 🔥 IMPORTANT WRAPPER */
+
 .dashboard-wrapper {
     width: 100%;
     padding: 20px 40px;
@@ -22,7 +22,7 @@ body {
     margin: 25px 0; 
 }
 
-/* Button */
+
 .btn-add {
     background: linear-gradient(45deg,#4f46e5,#00f0ff);
     color: white;
@@ -100,13 +100,13 @@ body {
 
 <div class="dashboard-wrapper">
 
-    <!-- Header -->
+    
     <div class="dashboard-header">
         <h2>📊 Admin Dashboard</h2>
         <a href="/admin/create" class="btn-add">+ Add New Event</a>
     </div>
 
-    <!-- 🔥 FIXED CARDS -->
+    
     <div class="stats-container">
         <div class="stat-card">
             <h3>Total Events</h3>
@@ -119,7 +119,7 @@ body {
         </div>
     </div>
 
-    <!-- Chart -->
+    
     <div class="chart-box">
         <canvas id="chart"></canvas>
     </div>
@@ -145,7 +145,8 @@ new Chart(document.getElementById('chart'), {
         },
         scales: {
             x: { ticks: { color: "white" } },
-            y: { ticks: { color: "white" } }
+            y: { ticks: { color: "white" } },
+            
         }
     }
 });
