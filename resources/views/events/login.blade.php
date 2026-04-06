@@ -39,8 +39,9 @@ input {
     margin: 10px 0;
     background: transparent;
     border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 8px;
+    border-radius: 80px;
     color: white;
+
 }
 
 input:focus {
@@ -102,7 +103,7 @@ input:focus {
 <div class="glass p-8 rounded-xl w-80 text-center" id="loginBox">
 
 <h2 class="text-2xl font-bold mb-4 text-cyan-400">Login</h2>
-
+    
 @if(session('error'))
 <p class="text-red-400">{{ session('error') }}</p>
 @endif
@@ -110,8 +111,8 @@ input:focus {
 <form method="POST" action="/login">
 @csrf
 
-<input type="email" name="email" placeholder="Enter Email" required><br><br>
-<input type="password" name="password" placeholder="Enter Password" required><br><br>
+<input type="email" name="email" placeholder="  Enter Email" required><br><br>
+<input type="password" name="password" placeholder="  Enter Password" required><br><br>
 
 <button class="btn">Login</button>
 

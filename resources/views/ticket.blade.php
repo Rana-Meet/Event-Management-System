@@ -1,182 +1,255 @@
 @extends('layouts.app')
 
 @section('content')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <style>
-    .ticket-container {
-        max-width: 600px;
-        margin: 50px auto;
-        font-family: 'Arial', sans-serif;
+    body {
+        background: radial-gradient(circle at top right, #1a1a2e, #0a0a0c);
+        min-height: 100vh;
     }
 
+    .ticket-container {
+        max-width: 700px;
+        margin: 60px auto;
+        padding: 0 20px;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    /* The Ticket Card */
     .ticket {
         display: flex;
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        background: #ffffff;
+        border-radius: 24px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         overflow: hidden;
-        border: 1px solid #e0e0e0;
         position: relative;
+        transition: transform 0.3s ease;
     }
 
-    /* Ticket Main Section */
+    .ticket:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Main Section */
     .ticket-main {
-        padding: 30px;
-        flex: 2;
-        border-right: 2px dashed #ddd;
+        padding: 40px;
+        flex: 1.8;
+        border-right: 2px dashed #e2e8f0;
+        background: white;
     }
 
-    .ticket-header {
-        text-transform: uppercase;
-        letter-spacing: 2px;
+    .brand-tag {
+        background: #eff6ff;
         color: #2563eb;
-        font-weight: bold;
-        margin-bottom: 20px;
-        display: flex;
+        padding: 6px 12px;
+        border-radius: 100px;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        display: inline-flex;
         align-items: center;
-        gap: 10px;
+        gap: 6px;
+        margin-bottom: 20px;
     }
 
     .event-title {
-        font-size: 24px;
-        margin: 5px 0;
-        color: #1e293b;
+        font-size: 28px;
+        font-weight: 800;
+        margin: 0 0 25px 0;
+        color: #0f172a;
+        line-height: 1.2;
     }
 
     .info-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 15px;
-        margin-top: 20px;
+        gap: 25px;
+    }
+
+    .info-item i {
+        color: #94a3b8;
+        font-size: 14px;
+        margin-right: 8px;
     }
 
     .info-label {
         font-size: 11px;
         color: #64748b;
         text-transform: uppercase;
-        margin-bottom: 2px;
+        font-weight: 700;
+        margin-bottom: 4px;
+        display: block;
     }
 
     .info-value {
-        font-size: 14px;
+        font-size: 15px;
         font-weight: 600;
-        color: #334155;
+        color: #1e293b;
     }
 
-    /* Ticket Stub (QR Side) */
+    /* Stub (QR Side) */
     .ticket-stub {
-        padding: 30px;
+        padding: 40px;
         flex: 1;
         background: #f8fafc;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        text-align: center;
+        position: relative;
     }
 
     .qr-wrapper {
         background: white;
-        padding: 10px;
-        border-radius: 10px;
-        border: 1px solid #e2e8f0;
-        margin-bottom: 10px;
+        padding: 15px;
+        border-radius: 18px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        margin-bottom: 15px;
+        border: 1px solid #f1f5f9;
+    }
+
+    .qr-wrapper img {
+        display: block;
+        width: 130px;
+        height: 130px;
+    }
+
+    .ticket-id-box {
+        text-align: center;
     }
 
     .ticket-code {
-        font-family: 'Courier New', monospace;
-        font-weight: bold;
-        font-size: 12px;
+        font-family: 'Monaco', 'Consolas', monospace;
+        font-size: 13px;
+        font-weight: 700;
         color: #475569;
+        letter-spacing: 1px;
     }
 
-    /* Decorative circles for the ticket "cut" */
+    /* Ticket "Bite" Decorations */
     .ticket::before, .ticket::after {
         content: '';
         position: absolute;
-        width: 20px;
-        height: 20px;
-        background: #f3f4f6; /* Match your page background */
+        width: 30px;
+        height: 30px;
+        background: #0a0a0c; /* Matches body background */
         border-radius: 50%;
-        left: 65.5%; /* Position at the dash line */
-        z-index: 10;
+        left: 64.2%; /* Alignment with dashed line */
+        z-index: 2;
     }
-    .ticket::before { top: -10px; border-bottom: 1px solid #e0e0e0; }
-    .ticket::after { bottom: -10px; border-top: 1px solid #e0e0e0; }
+    .ticket::before { top: -15px; }
+    .ticket::after { bottom: -15px; }
 
-    .btn-download {
-        display: block;
-        width: 200px;
-        margin: 20px auto;
-        background: #2563eb;
-        color: white;
-        border: none;
-        padding: 12px;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
+    /* Action Buttons */
+    .actions-row {
+        display: flex;
+        gap: 15px;
+        margin-top: 40px;
+        justify-content: center;
+    }
+
+    .btn-action {
+        flex: 1;
+        max-width: 250px;
+        padding: 14px 24px;
+        border-radius: 14px;
+        font-weight: 700;
+        font-size: 14px;
         text-align: center;
         text-decoration: none;
-        transition: 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
     }
-    .btn-download:hover { background: #1e40af; }
+
+    .btn-pdf {
+        background: #2563eb;
+        color: white;
+        box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-pdf:hover { background: #1d4ed8; transform: translateY(-2px); }
+
+    .btn-email {
+        background: #10b981;
+        color: white;
+        box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-email:hover { background: #059669; transform: translateY(-2px); }
+
+    @media (max-width: 640px) {
+        .ticket { flex-direction: column; }
+        .ticket-main { border-right: none; border-bottom: 2px dashed #ddd; }
+        .ticket::before, .ticket::after { display: none; }
+        .actions-row { flex-direction: column; align-items: center; }
+        .btn-action { width: 100%; }
+    }
 </style>
 
 <div class="ticket-container">
     <div class="ticket">
-        <!-- Main Body -->
         <div class="ticket-main">
-            <div class="ticket-header">
-                🎟️ Official Admission
+            <div class="brand-tag">
+                <i class="fas fa-check-circle"></i> Verified Booking
             </div>
-            <h1 class="event-title">{{ $booking->event->title ?? 'Special Event' }}</h1>
+            
+            <h1 class="event-title">{{ $booking->event->title ?? 'Global Tech Summit 2026' }}</h1>
             
             <div class="info-grid">
-                <div>
-                    <p class="info-label">Attendee</p>
-                    <p class="info-value">{{ $booking->user->name ?? 'Guest' }}</p>
+                <div class="info-item">
+                    <span class="info-label">Attendee Name</span>
+                    <span class="info-value"><i class="far fa-user"></i> {{ $booking->user->name ?? 'John Doe' }}</span>
                 </div>
-                <div>
-                    <p class="info-label">Date</p>
-                    <p class="info-value">{{ $booking->event->date ?? 'TBD' }}</p>
+                <div class="info-item">
+                    <span class="info-label">Date & Time</span>
+                    <span class="info-value"><i class="far fa-calendar-alt"></i> {{ $booking->event->date ?? 'Oct 24, 2026' }}</span>
                 </div>
-                <div>
-                    <p class="info-label">Location</p>
-                    <p class="info-value">{{ $booking->event->location ?? 'Venue' }}</p>
+                <div class="info-item">
+                    <span class="info-label">Venue Location</span>
+                    <span class="info-value"><i class="fas fa-map-marker-alt"></i> {{ $booking->event->location ?? 'Convention Center' }}</span>
                 </div>
-                <div>
-                    <p class="info-label">Price</p>
-                    <p class="info-value">₹{{ number_format($booking->event->price ?? 0, 2) }}</p>
+                <div class="info-item">
+                    <span class="info-label">Pass Type</span>
+                    <span class="info-value"><i class="fas fa-ticket-alt"></i> ₹{{ number_format($booking->event->price ?? 0, 0) }} (VIP)</span>
                 </div>
             </div>
         </div>
 
-    
         <div class="ticket-stub">
             <div class="qr-wrapper">
                 @if(!empty($booking->ticket_code))
-                    {{-- Note: format('png') is required for the PDF download to work --}}
-                    <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(120)->margin(0)->generate($booking->ticket_code)) !!} ">
+                    <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(150)->margin(0)->generate($booking->ticket_code)) !!} ">
                 @else
-                    <small style="color: red;">NO CODE</small>
+                    <div style="width:130px; height:130px; display:flex; align-items:center; justify-content:center; background:#fee2e2; border-radius:12px;">
+                        <i class="fas fa-exclamation-triangle text-red-500 text-3xl"></i>
+                    </div>
                 @endif
             </div>
-            <p class="info-label">Ticket ID</p>
-            <p class="ticket-code">{{ $booking->ticket_code ?? 'N/A' }}</p>
+            <div class="ticket-id-box">
+                <span class="info-label">Entry Pass ID</span>
+                <span class="ticket-code">#{{ $booking->ticket_code ?? 'XC-88291' }}</span>
+            </div>
         </div>
     </div>
 
-    
-    <a href="/download/{{ $booking->id }}" class="btn-download">
-        Download PDF Ticket
-    </a>
+    <div class="actions-row">
+        <a href="/download/{{ $booking->id }}" class="btn-action btn-pdf">
+            <i class="fas fa-file-pdf"></i> Download PDF
+        </a>
+
+        <form action="/send-ticket/{{ $booking->id }}" method="POST" style="flex: 1; max-width: 250px;">
+            @csrf
+            <button type="submit" class="btn-action btn-email">
+                <i class="fas fa-envelope"></i> Send to Email
+            </button>
+        </form>
+    </div>
 </div>
-
-
- <form action="/send-ticket/{{ $booking->id }}" method="POST">
-    @csrf
-    <button class="btn-download" style="background:#16a34a;">
-        Send to Email 📧
-    </button>
-</form>
 @endsection
-

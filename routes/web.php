@@ -8,6 +8,8 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AdminController;
 use App\Models\User;    
 use App\Models\Booking; 
+use App\Models\Demo;
+use App\Http\Controllers\DemoController;
 
 
 
@@ -91,3 +93,39 @@ Route::get('/payment', [BookingController::class, 'payment']);
 Route::post('/payment-success', [BookingController::class, 'paymentScreen']);
 Route::post('/send-ticket/{id}', [BookingController::class, 'sendTicket']); 
 Route::post('/just', [JustController::class, 'just']);
+
+
+
+
+// use App\Http\Controllers\DemoController;
+
+Route::get('/demo', [DemoController::class, 'index']);
+Route::post('/demo', [DemoController::class, 'store']);
+
+
+
+Route::get('/api/check-demo', function (Request $request) {
+    $email = $request->query('email');
+    
+    // Search for the email in the demos table
+    $demo = Demo::where('email', $email)->latest()->first();
+
+    if ($demo) {
+        return response()->json([
+            'success' => true,
+            'demo' => [
+                'plan' => $demo->plan,
+                'company' => $demo->company,
+                'created_at' => $demo->created_at->format('Y-m-d'),
+            ]
+        ]);
+    }
+
+    return response()->json(['success' => false]);
+});
+
+Route::get('/about', function () { return view('pages.about'); });
+Route::get('/careers', function () { return view('pages.careers'); });
+Route::get('/blog', function () { return view('pages.blog'); });
+Route::get('/pricing', function () { return view('pages.pricing'); });
+Route::get('/features', function () { return view('pages.features'); });

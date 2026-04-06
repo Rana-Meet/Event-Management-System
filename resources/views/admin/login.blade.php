@@ -17,6 +17,7 @@
         @csrf
         <input type="email" name="email" placeholder="Enter Email"><br>
         <input type="password" name="password" placeholder="Enter Password"><br>
+        
         <button>Login</button>
     </form>
 </div>

@@ -102,7 +102,8 @@ class BookingController extends Controller
         $booking = Booking::with(['event','user'])->findOrFail($id);
 
         Mail::to($booking->user->email)->send(new TicketMail($booking));
-
+         
         return back()->with('success', 'Ticket sent to your email!');
+
     }
 }
