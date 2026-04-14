@@ -15,7 +15,9 @@
                 <h4 class="text-xl font-bold">Laravel Backend Developer</h4>
                 <p class="text-gray-400 text-sm">Ahmedabad • Full-time</p>
             </div>
+            
             <button class="text-cyan-400 border border-cyan-400 px-4 py-2 rounded-lg">Apply</button>
+            
         </div>
     </div>
 </div>

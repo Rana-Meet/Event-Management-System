@@ -47,7 +47,7 @@
 <div id="particles-js"></div>
 
 <div class="relative min-h-screen flex flex-col items-center justify-center px-6 py-20">
-    <div class="glow-orb top-[-10%] left-[-10%]"></div>
+    <div cla    ss="glow-orb top-[-10%] left-[-10%]"></div>
     <div class="glow-orb bottom-[-10%] right-[-10%]"></div>
 
     <div class="text-center mb-16" data-aos="fade-up">
@@ -117,6 +117,7 @@
         },
         "interactivity": {
             "events": { "onhover": { "enable": true, "mode": "repulse" } }
+            
         }
     });
 </script>

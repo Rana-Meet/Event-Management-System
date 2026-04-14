@@ -155,11 +155,11 @@
             </button>
         </div>
 
-    </div>
+    </div>  
 
     <p class="text-center mt-20 text-gray-600 text-sm">
         All plans include 256-bit SSL security. Need a custom plan? <a href="/demo" class="text-cyan-400 hover:underline">Book a demo.</a>
-    </p>
+    </p>    
 </div>
 
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
@@ -179,8 +179,14 @@
             "color": { "value": "#22d3ee" },
             "opacity": { "value": 0.1 },
             "size": { "value": 1.5 },
-            "move": { "speed": 1 }
+            "move": { "speed": 1 } 
         }
     });
 </script>
 @endsection
+
+{{-- # Optional: Ensure your local branch is also named 'main'
+git branch -M main
+
+# Push the code
+git push -u origin main --}}

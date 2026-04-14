@@ -14,6 +14,7 @@
         color: #e2e8f0;
         font-family: 'Inter', sans-serif;
         overflow-x: hidden;
+    
     }
 
     .glass-card {

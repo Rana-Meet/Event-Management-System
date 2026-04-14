@@ -10,6 +10,9 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TicketMail;
 
+// ✅ IMPORTANT (QR FIX)
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
 class BookingController extends Controller
 {
     // SHOW BOOK FORM
@@ -61,7 +64,7 @@ class BookingController extends Controller
             ]
         );
 
-        // Generate code
+        // Generate ticket code
         $code = 'EVM-' . strtoupper(uniqid());
 
         // Create booking
@@ -88,15 +91,26 @@ class BookingController extends Controller
         return view('events.login');
     }
 
-    // DOWNLOAD PDF
+    // ✅ DOWNLOAD PDF WITH QR
     public function download($id)
     {
         $booking = Booking::with(['event', 'user'])->findOrFail($id);
 
-        $pdf = Pdf::loadView('ticket', compact('booking'));
+        // ✅ Ensure QR has valid data
+        $qrData = 'Ticket ID: ' . ($booking->ticket_code ?? 'N/A');
+
+        // ✅ Generate QR
+        $qr = base64_encode(
+            QrCode::format('png')->size(200)->generate($qrData)
+        );
+
+        // Load PDF view
+        $pdf = Pdf::loadView('ticket_pdf', compact('booking', 'qr'));
 
         return $pdf->download('Ticket-'.$booking->ticket_code.'.pdf');
     }
+
+    // SEND EMAIL
     public function sendTicket($id)
     {
         $booking = Booking::with(['event','user'])->findOrFail($id);
@@ -104,6 +118,7 @@ class BookingController extends Controller
         Mail::to($booking->user->email)->send(new TicketMail($booking));
          
         return back()->with('success', 'Ticket sent to your email!');
-
     }
+        
+
 }

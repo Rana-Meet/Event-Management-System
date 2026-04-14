@@ -103,15 +103,18 @@
 
     .qr-wrapper {
         background: white;
-        padding: 15px;
+        padding: 10px;
         border-radius: 18px;
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         margin-bottom: 15px;
         border: 1px solid #f1f5f9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .qr-wrapper img {
-        display: block;
+    /* Ensure the SVG scales correctly */
+    .qr-wrapper svg {
         width: 130px;
         height: 130px;
     }
@@ -134,9 +137,9 @@
         position: absolute;
         width: 30px;
         height: 30px;
-        background: #0a0a0c; /* Matches body background */
+        background: #0a0a0c; 
         border-radius: 50%;
-        left: 64.2%; /* Alignment with dashed line */
+        left: 64.2%; 
         z-index: 2;
     }
     .ticket::before { top: -15px; }
@@ -200,20 +203,20 @@
                 <i class="fas fa-check-circle"></i> Verified Booking
             </div>
             
-            <h1 class="event-title">{{ $booking->event->title ?? 'Global Tech Summit 2026' }}</h1>
+            <h1 class="event-title">{{ $booking->event->title ?? 'Python Webinar' }}</h1>
             
             <div class="info-grid">
                 <div class="info-item">
                     <span class="info-label">Attendee Name</span>
-                    <span class="info-value"><i class="far fa-user"></i> {{ $booking->user->name ?? 'John Doe' }}</span>
+                    <span class="info-value"><i class="far fa-user"></i> {{ $booking->user->name ?? 'User' }}</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">Date & Time</span>
-                    <span class="info-value"><i class="far fa-calendar-alt"></i> {{ $booking->event->date ?? 'Oct 24, 2026' }}</span>
+                    <span class="info-value"><i class="far fa-calendar-alt"></i> {{ $booking->event->date ?? '2026-04-29' }}</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">Venue Location</span>
-                    <span class="info-value"><i class="fas fa-map-marker-alt"></i> {{ $booking->event->location ?? 'Convention Center' }}</span>
+                    <span class="info-value"><i class="fas fa-map-marker-alt"></i> {{ $booking->event->location ?? 'Online' }}</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">Pass Type</span>
@@ -224,17 +227,17 @@
 
         <div class="ticket-stub">
             <div class="qr-wrapper">
+                {{-- Check if ticket_code exists, otherwise show a test QR --}}
                 @if(!empty($booking->ticket_code))
-                    <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(150)->margin(0)->generate($booking->ticket_code)) !!} ">
+                    {!! QrCode::size(130)->margin(0)->generate($booking->ticket_code) !!}
                 @else
-                    <div style="width:130px; height:130px; display:flex; align-items:center; justify-content:center; background:#fee2e2; border-radius:12px;">
-                        <i class="fas fa-exclamation-triangle text-red-500 text-3xl"></i>
-                    </div>
+                    {{-- This will show a test QR if your database field is empty --}}
+                    {!! QrCode::size(130)->color(255, 0, 0)->generate('NO-CODE-FOUND') !!}
                 @endif
             </div>
             <div class="ticket-id-box">
                 <span class="info-label">Entry Pass ID</span>
-                <span class="ticket-code">#{{ $booking->ticket_code ?? 'XC-88291' }}</span>
+                <span class="ticket-code">#{{ $booking->ticket_code ?? 'PENDING' }}</span>
             </div>
         </div>
     </div>
@@ -252,4 +255,4 @@
         </form>
     </div>
 </div>
-@endsection
+@endsection 

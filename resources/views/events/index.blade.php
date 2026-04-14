@@ -219,7 +219,7 @@
             <div class="flex flex-col items-center" data-aos="fade-up" data-aos-delay="300">
                 <div class="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center mb-4 border border-blue-400/30">
                     <i class="fa fa-users text-blue-400"></i>
-                </div>  
+                </div>
                 <h2 class="text-4xl font-black tracking-tighter mb-1">1.6M+</h2>
                 <p class="text-gray-500 uppercase text-xs font-bold tracking-widest">Attendees</p>
             </div>
@@ -234,7 +234,7 @@
         <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 italic">journey smoother.</span>
     </h2>
 </section>
-/* Enhanced Typography for Stats */
+ 
 
     <footer class="bg-black border-t border-gray-800 px-10 py-16">
         <div class="grid md:grid-cols-4 gap-10 text-gray-400">
@@ -248,6 +248,7 @@
                 <a href="/demo" class="block hover:text-white">Demo</a>
                 <a href="/careers" class="block hover:text-white">Careers</a>
                 <a href="/blog" class="block hover:text-white">Blog</a>
+                
             </div>
             <div>
                 <h4 class="text-white mb-4">Product</h4>
@@ -316,3 +317,5 @@
 
 </body>
 </html>
+
+

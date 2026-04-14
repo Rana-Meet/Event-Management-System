@@ -11,11 +11,8 @@ class Booking extends Model
     use HasFactory;
 
     // Important: Allows these fields to be saved to the database
-    protected $fillable = [
-        'user_id', 
-        'event_id', 
-        'ticket_code'
-    ];
+    // App\Models\Booking.php
+        protected $fillable = ['user_id', 'event_id', 'amount', 'razorpay_payment_id', 'status'];
 
     /**
      * Get the user that owns the booking.
