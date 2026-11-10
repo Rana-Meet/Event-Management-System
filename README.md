@@ -1,5 +1,5 @@
 
-Event Management System Imagessssss
+Event Management System Images
 
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/4756849f-2b5c-4382-a81f-ee02dcebb9a8" />
